@@ -6,24 +6,43 @@ enum Order {
   DESC,
 }
 
-interface IItemsGet {
+/**
+ * REQUESTS
+ */
+interface BaseRequest {
   start: number;
   limit: number;
   order_direction: Order;
   order_field: string;
   query: string;
   metadata: boolean;
+}
+
+interface AlegraItemsQueryParams extends BaseRequest {
   idWarehouse: number;
 }
 
-export interface ItemCategory {
+interface AlegraConstactsQueryParams extends BaseRequest {
+  type: number;
+  name: string;
+  identification: string;
+}
+
+/** ---------------------------
+ * RESPONSE TYPES
+ * ---------------------------- */
+
+/** ---------------------------
+ * Items
+ * ---------------------------- */
+export interface AlegraItemCategory {
   id: string;
   name: string;
   description: string;
   status: string;
 }
 
-export interface Warehouse {
+export interface AlegraWarehouse {
   id: string;
   name: string;
   observations?: any;
@@ -36,15 +55,15 @@ export interface Warehouse {
   maxQuantity: string;
 }
 
-export interface Inventory {
+export interface AlegraInventory {
   unit: string;
   availableQuantity: number;
   unitCost: number;
   initialQuantity: number;
-  warehouses: Warehouse[];
+  warehouses: AlegraWarehouse[];
 }
 
-export interface Tax {
+export interface AlegraTax {
   id: number;
   name: string;
   percentage: number;
@@ -52,28 +71,78 @@ export interface Tax {
   status: string;
 }
 
-export interface Category {
+export interface AlegraCategory {
   id: number;
   name: string;
 }
 
-export interface Price {
+export interface AlegraPrice {
   idPriceList: number;
   name: string;
   price: number;
 }
 
-export interface Item {
+export interface AlegraItem {
   id: number;
   name: string;
   description: string;
   reference: string;
   status: string;
-  itemCategory: ItemCategory;
-  inventory: Inventory;
-  tax: Tax[];
-  category: Category;
-  price: Price[];
+  itemCategory: AlegraItemCategory;
+  inventory: AlegraInventory;
+  tax: AlegraTax[];
+  category: AlegraCategory;
+  price: AlegraPrice[];
+}
+
+/** ---------------------------
+ * Contacts
+ * ---------------------------- */
+
+export interface AlegraIdentificationObject {
+  type: string;
+  number: string;
+  dv: string;
+}
+
+export interface AlegraAddress {
+  address: string;
+  city: string;
+  department: string;
+  country: string;
+  zipCode: string;
+}
+
+export interface AlegraTerm {
+  id: string;
+  name: string;
+  days: string;
+}
+
+export interface AlegraPriceList {
+  id: number;
+  name: string;
+}
+
+export interface AlegraContact {
+  id: string;
+  name: string;
+  identification: string;
+  email: string;
+  phonePrimary: string;
+  phoneSecondary: string;
+  fax: string;
+  mobile: string;
+  observations: string;
+  kindOfPerson: string;
+  regime: string;
+  identificationObject: AlegraIdentificationObject;
+  address: AlegraAddress;
+  type: any[];
+  seller?: any;
+  term: AlegraTerm;
+  priceList: AlegraPriceList;
+  internalContacts: any[];
 }
 
 export default class Alegra {
@@ -108,17 +177,20 @@ export default class Alegra {
   }
 
   items = {
-    getById: (id: number): Promise<AxiosResponse<Item>> => {
+    getById: (id: number): Promise<AxiosResponse<AlegraItem>> => {
       return this.client.get(`/items/${id}`);
     },
-    get: (params?: IItemsGet): Promise<AxiosResponse<Item[]>> => {
-      return this.client.get('/items', { params });
+    get: (params?: AlegraItemsQueryParams): Promise<AxiosResponse<AlegraItem[]>> => {
+      return this.client.get(`/items`, { params });
     },
   };
 
   contacts = {
-    get: (params?: IItemsGet): Promise<AxiosResponse<any>> => {
-      return this.client.get('/contacts', { params });
+    getById: (id: number): Promise<AxiosResponse<AlegraContact>> => {
+      return this.client.get(`/contacts/${id}`);
+    },
+    get: (params?: AlegraConstactsQueryParams): Promise<AxiosResponse<AlegraContact[]>> => {
+      return this.client.get(`/contacts`, { params });
     },
   };
 }
