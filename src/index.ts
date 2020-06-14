@@ -30,11 +30,13 @@ interface AlegraConstactsQueryParams extends BaseRequest {
 
 /** ---------------------------
  * RESPONSE TYPES
- * ---------------------------- */
+ * ---------------------------- 
+ * */
 
 /** ---------------------------
  * Items
- * ---------------------------- */
+ * ---------------------------- 
+ * */
 export interface AlegraItemCategory {
   id: string;
   name: string;
@@ -97,7 +99,8 @@ export interface AlegraItem {
 
 /** ---------------------------
  * Contacts
- * ---------------------------- */
+ * ---------------------------- 
+ * */
 
 export interface AlegraIdentificationObject {
   type: string;
