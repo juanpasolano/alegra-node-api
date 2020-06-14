@@ -2,7 +2,8 @@
   "name": "alegra-node-api",
   "version": "1.0.0",
   "description": "Alegras Node API with types",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],
@@ -15,6 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "start": "tsc -w",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/node": "^14.0.13",
     "prettier": "^2.0.5",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",

@@ -82,7 +82,15 @@ export default class Alegra {
   public client: AxiosInstance;
 
   constructor(user: string, key: string) {
-    const auth = btoa(`${user}:${key}`);
+    if(typeof window !== "undefined") {
+      console.warn("---------------------------------------------------------")
+      console.warn("❌❌❌❌❌❌")
+      console.warn("Warning: It seems you are trying to use Alegra's api in the browser. You should not be using Alegra's credentials in the browser. They can easily get stolen and cause real damage!")
+      console.warn("You should not be using Alegra's credentials in the browser. They can easily get stolen and cause real damage!")
+      console.warn("This package should be used only in a node environment. Use at your own risk!")
+      console.warn("---------------------------------------------------------")
+    }
+    const auth = Buffer.from(`${user}:${key}`).toString('base64');
 
     const cache = setupCache({
       maxAge: 15 * 60 * 1000,
