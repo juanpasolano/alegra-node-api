@@ -1,12 +1,44 @@
 {
   "name": "alegra-node-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Alegras Node API with types",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juanpasolano/alegra-node-api"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "bugs": {
+    "url": "https://github.com/juanpasolano/alegra-node-api/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "Alegra",
+    "node",
+    "API"
+  ],
+  "author": "Juan Pablo Solano",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "axios-cache-adapter": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.9.5"
+  }
 }
