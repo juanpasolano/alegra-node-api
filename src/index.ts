@@ -10,22 +10,57 @@ enum Order {
  * REQUESTS
  */
 interface BaseRequest {
-  start: number;
-  limit: number;
-  order_direction: Order;
-  order_field: string;
-  query: string;
-  metadata: boolean;
+  start?: number;
+  limit?: number;
+  order_direction?: Order;
+  order_field?: string;
+  query?: string;
+  metadata?: boolean;
 }
 
 interface AlegraItemsQueryParams extends BaseRequest {
-  idWarehouse: number;
+  idWarehouse?: number;
+}
+
+enum AlegraItemTypes {
+  kit,
+  single,
+}
+interface AlegraItemsCreateParams {
+  name: string;
+  price:
+    | string
+    | {
+        idPriceList?: number;
+        price: number;
+      };
+  category?: {
+    id: number;
+  };
+  inventory?: {
+    unit: string;
+    unitCost: number;
+    initialQuantity: number;
+    minQuantity: number;
+  };
+  tax?: number | AlegraTax;
+  customFields?: { [key: string]: any };
+  productKey?: string;
+  description?: string;
+  subitems?: {
+    quantity: string;
+    item: { id: number };
+  };
+  kitWarehouse?: { id: number };
+  type?: AlegraItemTypes;
+  reference?: string;
+  itemCategory?: AlegraItemCategory;
 }
 
 interface AlegraConstactsQueryParams extends BaseRequest {
-  type: number;
-  name: string;
-  identification: string;
+  type?: number;
+  name?: string;
+  identification?: string;
 }
 
 /**
@@ -38,9 +73,9 @@ interface AlegraConstactsQueryParams extends BaseRequest {
 
 export interface AlegraItemCategory {
   id: string;
-  name: string;
-  description: string;
-  status: string;
+  name?: string;
+  description?: string;
+  status?: string;
 }
 
 export interface AlegraWarehouse {
@@ -66,10 +101,10 @@ export interface AlegraInventory {
 
 export interface AlegraTax {
   id: number;
-  name: string;
-  percentage: number;
-  description: string;
-  status: string;
+  name?: string;
+  percentage?: number;
+  description?: string;
+  status?: string;
 }
 
 export interface AlegraCategory {
@@ -183,6 +218,15 @@ export default class Alegra {
     },
     get: (params?: AlegraItemsQueryParams): Promise<AxiosResponse<AlegraItem[]>> => {
       return this.client.get(`/items`, { params });
+    },
+    create: (params: AlegraItemsCreateParams): Promise<AxiosResponse<AlegraItem>> => {
+      return this.client.post(`/items`, { params });
+    },
+    update: (id: number, params: AlegraItemsCreateParams): Promise<AxiosResponse<AlegraItem>> => {
+      return this.client.put(`/items/${id}`, { params });
+    },
+    delete: (id: number): Promise<AxiosResponse<AlegraItem>> => {
+      return this.client.delete(`/items/${id}`);
     },
   };
 
