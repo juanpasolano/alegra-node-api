@@ -61,6 +61,7 @@ interface AlegraConstactsQueryParams extends BaseRequest {
   type?: number;
   name?: string;
   identification?: string;
+  metadata?: boolean;
 }
 
 /**
@@ -181,6 +182,11 @@ export interface AlegraContact {
   internalContacts: any[];
 }
 
+export interface AlegraMetadataResponse<D> {
+  metadata: { total: number };
+  data: D;
+}
+
 export default class Alegra {
   public client: AxiosInstance;
 
@@ -234,7 +240,9 @@ export default class Alegra {
     getById: (id: number): Promise<AxiosResponse<AlegraContact>> => {
       return this.client.get(`/contacts/${id}`);
     },
-    get: (params?: AlegraConstactsQueryParams): Promise<AxiosResponse<AlegraContact[]>> => {
+    get: (
+      params?: AlegraConstactsQueryParams,
+    ): Promise<AxiosResponse<AlegraContact[] | AlegraMetadataResponse<AlegraContact[]>>> => {
       return this.client.get(`/contacts`, { params });
     },
   };
