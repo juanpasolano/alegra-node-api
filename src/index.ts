@@ -26,6 +26,7 @@ enum AlegraItemTypes {
   kit,
   single,
 }
+
 interface AlegraItemsCreateParams {
   name: string;
   price:
@@ -57,7 +58,7 @@ interface AlegraItemsCreateParams {
   itemCategory?: AlegraItemCategory;
 }
 
-interface AlegraConstactsQueryParams extends BaseRequest {
+export interface AlegraConstactsQueryParams extends BaseRequest {
   type?: number;
   name?: string;
   identification?: string;
@@ -130,6 +131,7 @@ export interface AlegraItem {
   tax: AlegraTax[];
   category: AlegraCategory;
   price: AlegraPrice[];
+  images: { id: number; name: string; url: string }[];
 }
 
 /**
@@ -187,6 +189,30 @@ export interface AlegraMetadataResponse<D> {
   data: D;
 }
 
+export interface AlegraEstimatesCreateParams {
+  date: string;
+  dueDate: string;
+  client: string | AlegraContact;
+  observations?: string;
+  annotation?: string;
+  items: {
+    id: string;
+    price: number;
+    quantity: number;
+  }[];
+  priceList?:
+    | string
+    | {
+        idPriceList?: number;
+        price: number;
+      };
+}
+
+export interface AlegraEstimateSendEmailParams {
+  emails: string[];
+  sendCopyToUSer?: boolean;
+}
+
 export default class Alegra {
   public client: AxiosInstance;
 
@@ -226,7 +252,7 @@ export default class Alegra {
       return this.client.get(`/items`, { params });
     },
     create: (params: AlegraItemsCreateParams): Promise<AxiosResponse<AlegraItem>> => {
-      return this.client.post(`/items`, { params });
+      return this.client.post(`/items`, params);
     },
     update: (id: number, params: AlegraItemsCreateParams): Promise<AxiosResponse<AlegraItem>> => {
       return this.client.put(`/items/${id}`, { params });
@@ -244,6 +270,18 @@ export default class Alegra {
       params?: AlegraConstactsQueryParams,
     ): Promise<AxiosResponse<AlegraContact[] | AlegraMetadataResponse<AlegraContact[]>>> => {
       return this.client.get(`/contacts`, { params });
+    },
+  };
+
+  estimates = {
+    create: (params: AlegraEstimatesCreateParams): Promise<AxiosResponse<any>> => {
+      return this.client.post(`/estimates`, params);
+    },
+    update: (id: number, params: AlegraEstimatesCreateParams): Promise<AxiosResponse<any>> => {
+      return this.client.put(`/estimates/${id}`, params);
+    },
+    sendEmail: (id: number, params: AlegraEstimateSendEmailParams): Promise<AxiosResponse<any>> => {
+      return this.client.post(`/estimates/${id}/email`, params);
     },
   };
 }
