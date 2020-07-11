@@ -213,6 +213,26 @@ export interface AlegraEstimateSendEmailParams {
   sendCopyToUSer?: boolean;
 }
 
+export interface AlegraEstimateItem {
+  id: string;
+  price: number;
+  quantity: string;
+  description: string;
+  discount: string;
+  total: number;
+}
+export interface AlegraEstimate {
+  anotation: string;
+  client: AlegraContact;
+  date: string;
+  dueDate: string;
+  id: string;
+  itesm: AlegraEstimateItem[];
+  number: string;
+  observations: string;
+  total: number;
+}
+
 export default class Alegra {
   public client: AxiosInstance;
 
@@ -274,10 +294,10 @@ export default class Alegra {
   };
 
   estimates = {
-    create: (params: AlegraEstimatesCreateParams): Promise<AxiosResponse<any>> => {
+    create: (params: AlegraEstimatesCreateParams): Promise<AxiosResponse<AlegraEstimate>> => {
       return this.client.post(`/estimates`, params);
     },
-    update: (id: number, params: AlegraEstimatesCreateParams): Promise<AxiosResponse<any>> => {
+    update: (id: number, params: AlegraEstimatesCreateParams): Promise<AxiosResponse<AlegraEstimate>> => {
       return this.client.put(`/estimates/${id}`, params);
     },
     sendEmail: (id: number, params: AlegraEstimateSendEmailParams): Promise<AxiosResponse<any>> => {
