@@ -194,7 +194,7 @@ export interface AlegraEstimatesCreateParams {
   dueDate: string;
   client: string | AlegraContact;
   observations?: string;
-  annotation?: string;
+  anotation?: string;
   items: {
     id: string;
     price: number;
@@ -283,8 +283,8 @@ export default class Alegra {
   };
 
   contacts = {
-    getById: (id: number): Promise<AxiosResponse<AlegraContact>> => {
-      return this.client.get(`/contacts/${id}`);
+    getById: (id: number, params: any): Promise<AxiosResponse<AlegraContact>> => {
+      return this.client.get(`/contacts/${id}`, params);
     },
     get: (
       params?: AlegraConstactsQueryParams,
