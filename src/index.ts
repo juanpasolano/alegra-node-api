@@ -227,10 +227,24 @@ export interface AlegraEstimate {
   date: string;
   dueDate: string;
   id: string;
-  itesm: AlegraEstimateItem[];
+  items: AlegraEstimateItem[];
   number: string;
   observations: string;
   total: number;
+  invoices?: AlegraInvoice[];
+}
+
+export interface AlegraInvoice {
+  id: string;
+  total: number;
+  balance: number;
+  totalPaid: number;
+  numberTemplate?: {
+    id: string;
+    prefix: string;
+    number: string;
+    text: string;
+  };
 }
 
 export default class Alegra {
@@ -258,6 +272,9 @@ export default class Alegra {
     });
     const axiosInstance = axios.create({
       baseURL: 'https://api.alegra.com/api/v1/',
+      headers: {
+        'Content-type': 'application/json',
+      },
       adapter: cache.adapter,
     });
     axiosInstance.defaults.headers.common.Authorization = `Basic ${auth}`;
@@ -302,6 +319,9 @@ export default class Alegra {
     },
     sendEmail: (id: number, params: AlegraEstimateSendEmailParams): Promise<AxiosResponse<any>> => {
       return this.client.post(`/estimates/${id}/email`, params);
+    },
+    get: (id: number, params: any): Promise<AxiosResponse<AlegraEstimate>> => {
+      return this.client.get(`/estimates/${id}`, { params });
     },
   };
 }
