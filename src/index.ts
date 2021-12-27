@@ -239,6 +239,14 @@ export interface AlegraInvoice {
   total: number;
   balance: number;
   totalPaid: number;
+  client: AlegraContact;
+  date: string;
+  datetime: string;
+  dueDate: string;
+  observations: string;
+  priceList: AlegraPriceList;
+  termsConditions: string;
+  status: "open" | "closed" | "draft" | "void";
   numberTemplate?: {
     id: string;
     prefix: string;
