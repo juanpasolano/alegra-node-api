@@ -324,4 +324,10 @@ export default class Alegra {
       return this.client.get(`/estimates/${id}`, { params });
     },
   };
+
+  invoices = {
+    get: (params?: any): Promise<AxiosResponse<AlegraInvoice[]>> => {
+      return this.client.get(`/invoices`, { params });
+    },
+  };
 }
