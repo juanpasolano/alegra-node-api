@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { setupCache } from 'axios-cache-adapter';
 
 enum Order {
   ASC,
@@ -275,15 +274,12 @@ export default class Alegra {
     }
     const auth = Buffer.from(`${user}:${key}`).toString('base64');
 
-    const cache = setupCache({
-      maxAge: 15 * 60 * 1000,
-    });
     const axiosInstance = axios.create({
       baseURL: 'https://api.alegra.com/api/v1/',
       headers: {
         'Content-type': 'application/json',
       },
-      adapter: cache.adapter,
+      // adapter: cache.adapter,
     });
     axiosInstance.defaults.headers.common.Authorization = `Basic ${auth}`;
     this.client = axiosInstance;
