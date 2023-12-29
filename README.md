@@ -11,7 +11,7 @@ Incluye Types!
 ### Instalacion
 
 ```
-npm install alegra-nope-api --save
+npm install alegra-node-api --save
 ```
 
 or
