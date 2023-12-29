@@ -33,7 +33,7 @@
   "author": "Juan Pablo Solano",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^1.6.0",
     "axios-cache-adapter": "^2.5.0"
   },
   "devDependencies": {
