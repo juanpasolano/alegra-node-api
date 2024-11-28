@@ -159,6 +159,7 @@ export interface AlegraTerm {
 
 export interface AlegraPriceList {
   id: number;
+  idLocal: number;
   name: string;
 }
 
