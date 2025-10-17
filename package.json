@@ -1,6 +1,6 @@
 {
   "name": "alegra-node-api",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Alegras Node API with types",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
