@@ -246,7 +246,7 @@ export interface AlegraInvoice {
   observations: string;
   priceList: AlegraPriceList;
   termsConditions: string;
-  status: "open" | "closed" | "draft" | "void";
+  status: 'open' | 'closed' | 'draft' | 'void';
   numberTemplate?: {
     id: string;
     prefix: string;
